@@ -1,25 +1,30 @@
 const vscode = require('vscode');
 const webserver = require('./webserver');
-const server = webserver.server;
+let server;
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-	console.log('Congratulations, your extension "vscode-healthcheck" is now active!');
-	const config = vscode.workspace.getConfiguration('vscode-healthcheck');
-
-	let disposable = vscode.commands.registerCommand('vscode-healthcheck.start', function () {
-		server.listen(config.port);
-		vscode.window.showInformationMessage('Hello World from vscode-healthcheck!');
-	});
-	context.subscriptions.push(disposable);
-
-	disposable = vscode.commands.registerCommand('vscode-healthcheck.stop', function () {
-		server.close();
-		vscode.window.showInformationMessage('Hello World from vscode-healthcheck!');
-	});
-	context.subscriptions.push(disposable);
+	[
+		vscode.commands.registerCommand('vscode-healthcheck.start', function () {
+			const config = vscode.workspace.getConfiguration('vscode-healthcheck');
+			server = webserver.create(config.response);
+			server.listen(config.port);
+			vscode.window.showInformationMessage('healthcheck started');
+		}),
+		vscode.commands.registerCommand('vscode-healthcheck.stop', function () {
+			server.close();
+			vscode.window.showInformationMessage('healthcheck stopped');
+		}),
+		vscode.commands.registerCommand('vscode-healthcheck.reload', function () {
+			server.close();
+			const config = vscode.workspace.getConfiguration('vscode-healthcheck');
+			server = webserver.create(config.response);
+			server.listen(config.port);
+			vscode.window.showInformationMessage('healthcheck restarted');
+		}),
+	].forEach((disposable) => { context.subscriptions.push(disposable); });
 }
 
 function deactivate() {

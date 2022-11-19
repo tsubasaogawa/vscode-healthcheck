@@ -17,11 +17,15 @@
 		"commands": [
 			{
 				"command": "vscode-healthcheck.start",
-				"title": "Start healthcheck"
+				"title": "vscode-healthcheck: Start"
 			},
 			{
 				"command": "vscode-healthcheck.stop",
-				"title": "Stop healthcheck"
+				"title": "vscode-healthcheck: Stop"
+			},
+			{
+				"command": "vscode-healthcheck.reload",
+				"title": "vscode-healthcheck: Reload"
 			}
 		],
 		"configuration": {
@@ -31,6 +35,11 @@
 					"type": "number",
 					"description": "Port number",
 					"default": 8888
+				},
+				"vscode-healthcheck.response": {
+					"type": "string",
+					"description": "Response text",
+					"default": "{\"hello\": \"world\"}"
 				}
 			}
 		}
