@@ -14,11 +14,16 @@ function activate(context) {
 			vscode.window.showInformationMessage('healthcheck started');
 		}),
 		vscode.commands.registerCommand('vscode-healthcheck.stop', function () {
+			if (!server) {
+				return;
+			}
 			server.close();
 			vscode.window.showInformationMessage('healthcheck stopped');
 		}),
 		vscode.commands.registerCommand('vscode-healthcheck.reload', function () {
-			server.close();
+			if (server) {
+				server.close();
+			}
 			const config = vscode.workspace.getConfiguration('vscode-healthcheck');
 			server = webserver.create(config.response);
 			server.listen(config.port);
