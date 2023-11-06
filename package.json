@@ -2,7 +2,7 @@
 	"name": "vscode-healthcheck",
 	"displayName": "vscode-healthcheck",
 	"description": "A simple webserver vscode-extension for healthcheck",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"publisher": "tsubasaogawa",
 	"keywords": [
 		"healthcheck",
@@ -21,6 +21,7 @@
 	"activationEvents": [
 		"onCommand:vscode-healthcheck.start"
 	],
+	"icon": "icon.png",
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
